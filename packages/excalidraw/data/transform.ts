@@ -1,25 +1,45 @@
+import { pointFrom, type LocalPoint } from "@excalidraw/math";
+
 import {
   DEFAULT_FONT_FAMILY,
   DEFAULT_FONT_SIZE,
   TEXT_ALIGN,
   VERTICAL_ALIGN,
-} from "../constants";
-import {
-  getCommonBounds,
-  newElement,
-  newLinearElement,
-  redrawTextBoundingBox,
-} from "../element";
-import { bindLinearElement } from "../element/binding";
-import type { ElementConstructorOpts } from "../element/newElement";
+  getSizeFromPoints,
+  randomId,
+  arrayToMap,
+  assertNever,
+  cloneJSON,
+  getFontString,
+  isDevEnv,
+  toBrandedType,
+  getLineHeight,
+} from "@excalidraw/common";
+
+import { bindLinearElement } from "@excalidraw/element/binding";
 import {
   newArrowElement,
+  newElement,
   newFrameElement,
   newImageElement,
+  newLinearElement,
   newMagicFrameElement,
   newTextElement,
-} from "../element/newElement";
-import { measureText, normalizeText } from "../element/textElement";
+} from "@excalidraw/element/newElement";
+import {
+  measureText,
+  normalizeText,
+} from "@excalidraw/element/textMeasurements";
+import { isArrowElement } from "@excalidraw/element/typeChecks";
+
+import { syncInvalidIndices } from "@excalidraw/element/fractionalIndex";
+
+import { redrawTextBoundingBox } from "@excalidraw/element/textElement";
+
+import { LinearElementEditor } from "@excalidraw/element/linearElementEditor";
+
+import type { ElementConstructorOpts } from "@excalidraw/element/newElement";
+
 import type {
   ElementsMap,
   ExcalidrawArrowElement,
@@ -39,20 +59,11 @@ import type {
   NonDeletedSceneElementsMap,
   TextAlign,
   VerticalAlign,
-} from "../element/types";
-import type { MarkOptional } from "../utility-types";
-import {
-  arrayToMap,
-  assertNever,
-  cloneJSON,
-  getFontString,
-  toBrandedType,
-} from "../utils";
-import { getSizeFromPoints } from "../points";
-import { randomId } from "../random";
-import { syncInvalidIndices } from "../fractionalIndex";
-import { getLineHeight } from "../fonts";
-import { isArrowElement } from "../element/typeChecks";
+} from "@excalidraw/element/types";
+
+import type { MarkOptional } from "@excalidraw/common/utility-types";
+
+import { getCommonBounds } from "..";
 
 export type ValidLinearElement = {
   type: "arrow" | "line";
@@ -417,7 +428,7 @@ const bindLinearElementToElement = (
   const endPointIndex = linearElement.points.length - 1;
   const delta = 0.5;
 
-  const newPoints = cloneJSON(linearElement.points) as [number, number][];
+  const newPoints = cloneJSON<readonly LocalPoint[]>(linearElement.points);
 
   // left to right so shift the arrow towards right
   if (
@@ -454,7 +465,13 @@ const bindLinearElementToElement = (
     newPoints[endPointIndex][1] += delta;
   }
 
-  Object.assign(linearElement, { points: newPoints });
+  Object.assign(
+    linearElement,
+    LinearElementEditor.getNormalizedPoints({
+      ...linearElement,
+      points: newPoints,
+    }),
+  );
 
   return {
     linearElement,
@@ -535,10 +552,7 @@ export const convertToExcalidrawElements = (
         excalidrawElement = newLinearElement({
           width,
           height,
-          points: [
-            [0, 0],
-            [width, height],
-          ],
+          points: [pointFrom(0, 0), pointFrom(width, height)],
           ...element,
         });
 
@@ -551,10 +565,7 @@ export const convertToExcalidrawElements = (
           width,
           height,
           endArrowhead: "arrow",
-          points: [
-            [0, 0],
-            [width, height],
-          ],
+          points: [pointFrom(0, 0), pointFrom(width, height)],
           ...element,
           type: "arrow",
         });
@@ -722,7 +733,7 @@ export const convertToExcalidrawElements = (
   }
 
   // Once all the excalidraw elements are created, we can add frames since we
-  // need to calculate coordinates and dimensions of frame which is possibe after all
+  // need to calculate coordinates and dimensions of frame which is possible after all
   // frame children are processed.
   for (const [id, element] of elementsWithIds) {
     if (element.type !== "frame" && element.type !== "magicframe") {
@@ -769,10 +780,26 @@ export const convertToExcalidrawElements = (
     maxX = maxX + PADDING;
     maxY = maxY + PADDING;
 
-    // Take the max of calculated and provided frame dimensions, whichever is higher
-    const width = Math.max(frame?.width, maxX - minX);
-    const height = Math.max(frame?.height, maxY - minY);
-    Object.assign(frame, { x: minX, y: minY, width, height });
+    const frameX = frame?.x || minX;
+    const frameY = frame?.y || minY;
+    const frameWidth = frame?.width || maxX - minX;
+    const frameHeight = frame?.height || maxY - minY;
+
+    Object.assign(frame, {
+      x: frameX,
+      y: frameY,
+      width: frameWidth,
+      height: frameHeight,
+    });
+    if (
+      isDevEnv() &&
+      element.children.length &&
+      (frame?.x || frame?.y || frame?.width || frame?.height)
+    ) {
+      console.info(
+        "User provided frame attributes are being considered, if you find this inaccurate, please remove any of the attributes - x, y, width and height so frame coordinates and dimensions are calculated automatically",
+      );
+    }
   }
 
   return elementStore.getElements();

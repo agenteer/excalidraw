@@ -1,4 +1,16 @@
-import type React from "react";
+import type {
+  IMAGE_MIME_TYPES,
+  UserIdleState,
+  throttleRAF,
+  MIME_TYPES,
+} from "@excalidraw/common";
+
+import type { SuggestedBinding } from "@excalidraw/element/binding";
+
+import type { LinearElementEditor } from "@excalidraw/element/linearElementEditor";
+
+import type { MaybeTransformHandleType } from "@excalidraw/element/transformHandles";
+
 import type {
   PointerType,
   ExcalidrawLinearElement,
@@ -22,28 +34,30 @@ import type {
   ExcalidrawIframeLikeElement,
   OrderedExcalidrawElement,
   ExcalidrawNonSelectionElement,
-} from "./element/types";
+} from "@excalidraw/element/types";
+
+import type {
+  Merge,
+  MaybePromise,
+  ValueOf,
+  MakeBrand,
+} from "@excalidraw/common/utility-types";
+
 import type { Action } from "./actions/types";
-import type { Point as RoughPoint } from "roughjs/bin/geometry";
-import type { LinearElementEditor } from "./element/linearElementEditor";
-import type { SuggestedBinding } from "./element/binding";
-import type { ImportedDataState } from "./data/types";
-import type App from "./components/App";
-import type { throttleRAF } from "./utils";
 import type { Spreadsheet } from "./charts";
-import type { Language } from "./i18n";
 import type { ClipboardData } from "./clipboard";
-import type { isOverScrollBars } from "./scene/scrollbars";
-import type { MaybeTransformHandleType } from "./element/transformHandles";
+import type App from "./components/App";
 import type Library from "./data/library";
 import type { FileSystemHandle } from "./data/filesystem";
-import type { IMAGE_MIME_TYPES, MIME_TYPES } from "./constants";
 import type { ContextMenuItems } from "./components/ContextMenu";
 import type { SnapLine } from "./snapping";
-import type { Merge, MaybePromise, ValueOf } from "./utility-types";
-import type { StoreActionType } from "./store";
+import type { CaptureUpdateActionType } from "./store";
+import type { ImportedDataState } from "./data/types";
 
-export type Point = Readonly<RoughPoint>;
+import type { Language } from "./i18n";
+import type { isOverScrollBars } from "./scene/scrollbars";
+import type React from "react";
+import type { JSX } from "react";
 
 export type SocketId = string & { _brand: "SocketId" };
 
@@ -109,6 +123,11 @@ export type BinaryFileData = {
    * Epoch timestamp in milliseconds.
    */
   lastRetrieved?: number;
+  /**
+   * indicates the version of the file. This can be used to determine whether
+   * the file dataURL has changed e.g. as part of restore due to schema update.
+   */
+  version?: number;
 };
 
 export type BinaryFileMetadata = Omit<BinaryFileData, "dataURL">;
@@ -117,6 +136,7 @@ export type BinaryFiles = Record<ExcalidrawElement["id"], BinaryFileData>;
 
 export type ToolType =
   | "selection"
+  | "lasso"
   | "rectangle"
   | "diamond"
   | "ellipse"
@@ -159,6 +179,7 @@ type _CommonCanvasAppState = {
   width: AppState["width"];
   height: AppState["height"];
   viewModeEnabled: AppState["viewModeEnabled"];
+  openDialog: AppState["openDialog"];
   editingGroupId: AppState["editingGroupId"]; // TODO: move to interactive canvas if possible
   selectedElementIds: AppState["selectedElementIds"]; // TODO: move to interactive canvas if possible
   frameToHighlight: AppState["frameToHighlight"]; // TODO: move to interactive canvas if possible
@@ -176,8 +197,12 @@ export type StaticCanvasAppState = Readonly<
     exportScale: AppState["exportScale"];
     selectedElementsAreBeingDragged: AppState["selectedElementsAreBeingDragged"];
     gridSize: AppState["gridSize"];
+    gridStep: AppState["gridStep"];
     frameRendering: AppState["frameRendering"];
     currentHoveredFontFamily: AppState["currentHoveredFontFamily"];
+    hoveredElementIds: AppState["hoveredElementIds"];
+    // Cropping
+    croppingElementId: AppState["croppingElementId"];
   }
 >;
 
@@ -199,7 +224,12 @@ export type InteractiveCanvasAppState = Readonly<
     // SnapLines
     snapLines: AppState["snapLines"];
     zenModeEnabled: AppState["zenModeEnabled"];
-    editingElement: AppState["editingElement"];
+    editingTextElement: AppState["editingTextElement"];
+    // Cropping
+    isCropping: AppState["isCropping"];
+    croppingElementId: AppState["croppingElementId"];
+    // Search matches
+    searchMatches: AppState["searchMatches"];
   }
 >;
 
@@ -219,6 +249,7 @@ export type ObservedElementsAppState = {
   editingLinearElementId: LinearElementEditor["elementId"] | null;
   // Right now it's coupled to `editingLinearElement`, ideally it should not be really needed as we already have selectedElementIds & editingLinearElementId
   selectedLinearElementId: LinearElementEditor["elementId"] | null;
+  croppingElementId: AppState["croppingElementId"];
 };
 
 export interface AppState {
@@ -267,13 +298,9 @@ export interface AppState {
   editingFrame: string | null;
   elementsToHighlight: NonDeleted<ExcalidrawElement>[] | null;
   /**
-   * currently set for:
-   * - text elements while in wysiwyg
-   * - newly created linear elements while in line editor (not set for existing
-   *   elements in line editor)
-   * - and new images while being placed on canvas
+   * set when a new text is created or when an existing text is being edited
    */
-  editingElement: NonDeletedExcalidrawElement | null;
+  editingTextElement: NonDeletedExcalidrawElement | null;
   editingLinearElement: LinearElementEditor | null;
   activeTool: {
     /**
@@ -282,6 +309,8 @@ export interface AppState {
      */
     lastActiveTool: ActiveTool | null;
     locked: boolean;
+    // indicates if the current tool is temporarily switched on from the selection tool
+    fromSelection: boolean;
   } & ActiveTool;
   penMode: boolean;
   penDetected: boolean;
@@ -324,16 +353,10 @@ export interface AppState {
   openDialog:
     | null
     | { name: "imageExport" | "help" | "jsonExport" }
-    | {
-        name: "settings";
-        source:
-          | "tool" // when magicframe tool is selected
-          | "generation" // when magicframe generate button is clicked
-          | "settings"; // when AI settings dialog is explicitly invoked
-        tab: "text-to-diagram" | "diagram-to-code";
-      }
     | { name: "ttd"; tab: "text-to-diagram" | "mermaid" }
-    | { name: "commandPalette" };
+    | { name: "commandPalette" }
+    | { name: "elementLinkSelector"; sourceElementId: ExcalidrawElement["id"] };
+
   /**
    * Reflects user preference for whether the default sidebar should be docked.
    *
@@ -345,13 +368,17 @@ export interface AppState {
 
   lastPointerDownWith: PointerType;
   selectedElementIds: Readonly<{ [id: string]: true }>;
+  hoveredElementIds: Readonly<{ [id: string]: true }>;
   previousSelectedElementIds: { [id: string]: true };
   selectedElementsAreBeingDragged: boolean;
   shouldCacheIgnoreZoom: boolean;
   toast: { message: string; closable?: boolean; duration?: number } | null;
   zenModeEnabled: boolean;
   theme: Theme;
-  gridSize: number | null;
+  /** grid cell px size */
+  gridSize: number;
+  gridStep: number;
+  gridModeEnabled: boolean;
   viewModeEnabled: boolean;
 
   /** top-most selected groups (i.e. does not include nested groups) */
@@ -395,7 +422,24 @@ export interface AppState {
   userToFollow: UserToFollow | null;
   /** the socket ids of the users following the current user */
   followedBy: Set<SocketId>;
+
+  /** image cropping */
+  isCropping: boolean;
+  croppingElementId: ExcalidrawElement["id"] | null;
+
+  searchMatches: readonly SearchMatch[];
 }
+
+type SearchMatch = {
+  id: string;
+  focus: boolean;
+  matchedLines: {
+    offsetX: number;
+    offsetY: number;
+    width: number;
+    height: number;
+  }[];
+};
 
 export type UIAppState = Omit<
   AppState,
@@ -488,6 +532,22 @@ export interface ExcalidrawProps {
     data: ClipboardData,
     event: ClipboardEvent | null,
   ) => Promise<boolean> | boolean;
+  /**
+   * Called when element(s) are duplicated so you can listen or modify as
+   * needed.
+   *
+   * Called when duplicating via mouse-drag, keyboard, paste, library insert
+   * etc.
+   *
+   * Returned elements will be used in place of the next elements
+   * (you should return all elements, including deleted, and not mutate
+   * the element if changes are made)
+   */
+  onDuplicate?: (
+    nextElements: readonly ExcalidrawElement[],
+    /** excludes the duplicated elements */
+    prevElements: readonly ExcalidrawElement[],
+  ) => ExcalidrawElement[] | void;
   renderTopRightUI?: (
     isMobile: boolean,
     appState: UIAppState,
@@ -511,6 +571,7 @@ export interface ExcalidrawProps {
   onLibraryChange?: (libraryItems: LibraryItems) => void | Promise<any>;
   autoFocus?: boolean;
   generateIdForFile?: (file: File) => string | Promise<string>;
+  generateLinkForSelection?: (id: string, type: "element" | "group") => string;
   onLinkOpen?: (
     element: NonDeletedExcalidrawElement,
     event: CustomEvent<{
@@ -546,14 +607,8 @@ export type SceneData = {
   elements?: ImportedDataState["elements"];
   appState?: ImportedDataState["appState"];
   collaborators?: Map<SocketId, Collaborator>;
-  storeAction?: StoreActionType;
+  captureUpdate?: CaptureUpdateActionType;
 };
-
-export enum UserIdleState {
-  ACTIVE = "active",
-  AWAY = "away",
-  IDLE = "idle",
-}
 
 export type ExportOpts = {
   saveFileToDisk?: boolean;
@@ -615,6 +670,7 @@ export type AppProps = Merge<
  * in the app, eg Manager. Factored out into a separate type to keep DRY. */
 export type AppClassProperties = {
   props: AppProps;
+  state: AppState;
   interactiveCanvas: HTMLCanvasElement | null;
   /** static canvas */
   canvas: HTMLCanvasElement;
@@ -649,6 +705,14 @@ export type AppClassProperties = {
   getName: App["getName"];
   dismissLinearEditor: App["dismissLinearEditor"];
   flowChartCreator: App["flowChartCreator"];
+  getEffectiveGridSize: App["getEffectiveGridSize"];
+  setPlugins: App["setPlugins"];
+  plugins: App["plugins"];
+  getEditorUIOffsets: App["getEditorUIOffsets"];
+  visibleElements: App["visibleElements"];
+  excalidrawContainerValue: App["excalidrawContainerValue"];
+
+  onPointerUpEmitter: App["onPointerUpEmitter"];
 };
 
 export type PointerDownState = Readonly<{
@@ -831,3 +895,20 @@ export type EmbedsValidationStatus = Map<
 export type ElementsPendingErasure = Set<ExcalidrawElement["id"]>;
 
 export type PendingExcalidrawElements = ExcalidrawElement[];
+
+/** Runtime gridSize value. Null indicates disabled grid. */
+export type NullableGridSize =
+  | (AppState["gridSize"] & MakeBrand<"NullableGridSize">)
+  | null;
+
+export type GenerateDiagramToCode = (props: {
+  frame: ExcalidrawMagicFrameElement;
+  children: readonly ExcalidrawElement[];
+}) => MaybePromise<{ html: string }>;
+
+export type Offsets = Partial<{
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+}>;

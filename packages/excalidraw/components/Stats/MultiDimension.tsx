@@ -1,25 +1,36 @@
+import { pointFrom, type GlobalPoint } from "@excalidraw/math";
 import { useMemo } from "react";
-import { getCommonBounds, isTextElement } from "../../element";
-import { updateBoundElements } from "../../element/binding";
-import { mutateElement } from "../../element/mutateElement";
-import { rescalePointsInElement } from "../../element/resizeElements";
+
+import { MIN_WIDTH_OR_HEIGHT } from "@excalidraw/common";
+import { updateBoundElements } from "@excalidraw/element/binding";
+import { mutateElement } from "@excalidraw/element/mutateElement";
+import {
+  rescalePointsInElement,
+  resizeSingleElement,
+} from "@excalidraw/element/resizeElements";
 import {
   getBoundTextElement,
   handleBindTextResize,
-} from "../../element/textElement";
+} from "@excalidraw/element/textElement";
+
+import { isTextElement } from "@excalidraw/element/typeChecks";
+
+import { getCommonBounds } from "@excalidraw/utils";
+
 import type {
   ElementsMap,
   ExcalidrawElement,
   NonDeletedSceneElementsMap,
-} from "../../element/types";
-import type Scene from "../../scene/Scene";
-import type { AppState, Point } from "../../types";
+} from "@excalidraw/element/types";
+
 import DragInput from "./DragInput";
-import type { DragInputCallbackType } from "./DragInput";
 import { getAtomicUnits, getStepSizedValue, isPropertyEditable } from "./utils";
-import { getElementsInAtomicUnit, resizeElement } from "./utils";
+import { getElementsInAtomicUnit } from "./utils";
+
+import type { DragInputCallbackType } from "./DragInput";
 import type { AtomicUnit } from "./utils";
-import { MIN_WIDTH_OR_HEIGHT } from "../../constants";
+import type Scene from "../../scene/Scene";
+import type { AppState } from "../../types";
 
 interface MultiDimensionProps {
   property: "width" | "height";
@@ -68,7 +79,6 @@ const resizeElementInGroup = (
   originalElementsMap: ElementsMap,
 ) => {
   const updates = getResizedUpdates(anchorX, anchorY, scale, origElement);
-  const { width: oldWidth, height: oldHeight } = latestElement;
 
   mutateElement(latestElement, updates, false);
   const boundTextElement = getBoundTextElement(
@@ -78,7 +88,7 @@ const resizeElementInGroup = (
   if (boundTextElement) {
     const newFontSize = boundTextElement.fontSize * scale;
     updateBoundElements(latestElement, elementsMap, {
-      oldSize: { width: oldWidth, height: oldHeight },
+      newSize: { width: updates.width, height: updates.height },
     });
     const latestBoundTextElement = elementsMap.get(boundTextElement.id);
     if (latestBoundTextElement && isTextElement(latestBoundTextElement)) {
@@ -104,7 +114,7 @@ const resizeGroup = (
   nextHeight: number,
   initialHeight: number,
   aspectRatio: number,
-  anchor: Point,
+  anchor: GlobalPoint,
   property: MultiDimensionProps["property"],
   latestElements: ExcalidrawElement[],
   originalElements: ExcalidrawElement[],
@@ -150,7 +160,6 @@ const handleDimensionChange: DragInputCallbackType<
   property,
 }) => {
   const elementsMap = scene.getNonDeletedElementsMap();
-  const elements = scene.getNonDeletedElements();
   const atomicUnits = getAtomicUnits(originalElements, originalAppState);
   if (nextValue !== undefined) {
     for (const atomicUnit of atomicUnits) {
@@ -181,7 +190,7 @@ const handleDimensionChange: DragInputCallbackType<
           nextHeight,
           initialHeight,
           aspectRatio,
-          [x1, y1],
+          pointFrom(x1, y1),
           property,
           latestElements,
           originalElements,
@@ -223,15 +232,17 @@ const handleDimensionChange: DragInputCallbackType<
           nextWidth = Math.max(MIN_WIDTH_OR_HEIGHT, nextWidth);
           nextHeight = Math.max(MIN_WIDTH_OR_HEIGHT, nextHeight);
 
-          resizeElement(
+          resizeSingleElement(
             nextWidth,
             nextHeight,
-            false,
+            latestElement,
             origElement,
             elementsMap,
-            elements,
-            scene,
-            false,
+            originalElementsMap,
+            property === "width" ? "e" : "s",
+            {
+              shouldInformMutation: false,
+            },
           );
         }
       }
@@ -286,7 +297,7 @@ const handleDimensionChange: DragInputCallbackType<
         nextHeight,
         initialHeight,
         aspectRatio,
-        [x1, y1],
+        pointFrom(x1, y1),
         property,
         latestElements,
         originalElements,
@@ -324,14 +335,17 @@ const handleDimensionChange: DragInputCallbackType<
         nextWidth = Math.max(MIN_WIDTH_OR_HEIGHT, nextWidth);
         nextHeight = Math.max(MIN_WIDTH_OR_HEIGHT, nextHeight);
 
-        resizeElement(
+        resizeSingleElement(
           nextWidth,
           nextHeight,
-          false,
+          latestElement,
           origElement,
           elementsMap,
-          elements,
-          scene,
+          originalElementsMap,
+          property === "width" ? "e" : "s",
+          {
+            shouldInformMutation: false,
+          },
         );
       }
     }

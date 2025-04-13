@@ -1,49 +1,57 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import {
-  fireEvent,
-  GlobalTestState,
-  render,
-  screen,
-  waitFor,
-} from "./test-utils";
-import { UI, Pointer, Keyboard } from "./helpers/ui";
-import { API } from "./helpers/api";
-import { actionFlipHorizontal, actionFlipVertical } from "../actions";
-import { getElementAbsoluteCoords } from "../element";
+import { vi } from "vitest";
+
+import { ROUNDNESS, KEYS, arrayToMap, cloneJSON } from "@excalidraw/common";
+
+import { pointFrom, type Radians } from "@excalidraw/math";
+
+import { getBoundTextElementPosition } from "@excalidraw/element/textElement";
+import { getElementAbsoluteCoords } from "@excalidraw/element/bounds";
+import { newLinearElement } from "@excalidraw/element/newElement";
+
+import type { LocalPoint } from "@excalidraw/math";
+
 import type {
   ExcalidrawElement,
   ExcalidrawImageElement,
   ExcalidrawLinearElement,
   ExcalidrawTextElementWithContainer,
   FileId,
-} from "../element/types";
-import { newLinearElement } from "../element";
-import { Excalidraw } from "../index";
-import type { NormalizedZoomValue } from "../types";
-import { ROUNDNESS } from "../constants";
-import { vi } from "vitest";
-import * as blob from "../data/blob";
-import { KEYS } from "../keys";
-import { getBoundTextElementPosition } from "../element/textElement";
+} from "@excalidraw/element/types";
+
+import { actionFlipHorizontal, actionFlipVertical } from "../actions";
 import { createPasteEvent } from "../clipboard";
-import { arrayToMap, cloneJSON } from "../utils";
+import { Excalidraw } from "../index";
+
+// Importing to spy on it and mock the implementation (mocking does not work with simple vi.mock for some reason)
+import * as blobModule from "../data/blob";
+
+import { API } from "./helpers/api";
+import { UI, Pointer, Keyboard } from "./helpers/ui";
+import {
+  fireEvent,
+  GlobalTestState,
+  render,
+  screen,
+  unmountComponent,
+  waitFor,
+} from "./test-utils";
+
+import type { NormalizedZoomValue } from "../types";
 
 const { h } = window;
 const mouse = new Pointer("mouse");
-// This needs to fixed in vitest mock, as when importActual used with mock
-// the tests hangs - https://github.com/vitest-dev/vitest/issues/546.
-// But fortunately spying and mocking the return value of spy works :p
 
-const resizeImageFileSpy = vi.spyOn(blob, "resizeImageFile");
-const generateIdFromFileSpy = vi.spyOn(blob, "generateIdFromFile");
+beforeEach(() => {
+  const generateIdSpy = vi.spyOn(blobModule, "generateIdFromFile");
+  const resizeFileSpy = vi.spyOn(blobModule, "resizeImageFile");
 
-resizeImageFileSpy.mockImplementation(async (imageFile: File) => imageFile);
-generateIdFromFileSpy.mockImplementation(async () => "fileId" as FileId);
+  generateIdSpy.mockImplementation(() => Promise.resolve("fileId" as FileId));
+  resizeFileSpy.mockImplementation((file: File) => Promise.resolve(file));
+});
 
 beforeEach(async () => {
-  // Unmount ReactDOM from root
-  ReactDOM.unmountComponentAtNode(document.getElementById("root")!);
+  unmountComponent();
 
   mouse.reset();
   localStorage.clear();
@@ -131,7 +139,7 @@ const createLinearElementWithCurveInsideMinMaxPoints = (
     y: -2412.5069664197654,
     width: 1750.4888916015625,
     height: 410.51605224609375,
-    angle: 0,
+    angle: 0 as Radians,
     strokeColor: "#000000",
     backgroundColor: "#fa5252",
     fillStyle: "hachure",
@@ -145,9 +153,9 @@ const createLinearElementWithCurveInsideMinMaxPoints = (
     link: null,
     locked: false,
     points: [
-      [0, 0],
-      [-922.4761962890625, 300.3277587890625],
-      [828.0126953125, 410.51605224609375],
+      pointFrom<LocalPoint>(0, 0),
+      pointFrom<LocalPoint>(-922.4761962890625, 300.3277587890625),
+      pointFrom<LocalPoint>(828.0126953125, 410.51605224609375),
     ],
   });
 };
@@ -423,8 +431,8 @@ describe("arrow", () => {
   });
 
   it("flips a rotated arrow horizontally with line inside min/max points bounds", async () => {
-    const originalAngle = Math.PI / 4;
-    const expectedAngle = (7 * Math.PI) / 4;
+    const originalAngle = (Math.PI / 4) as Radians;
+    const expectedAngle = ((7 * Math.PI) / 4) as Radians;
     const line = createLinearElementWithCurveInsideMinMaxPoints("arrow");
     API.setElements([line]);
     API.setAppState({
@@ -444,8 +452,8 @@ describe("arrow", () => {
   });
 
   it("flips a rotated arrow vertically with line inside min/max points bounds", async () => {
-    const originalAngle = Math.PI / 4;
-    const expectedAngle = (7 * Math.PI) / 4;
+    const originalAngle = (Math.PI / 4) as Radians;
+    const expectedAngle = ((7 * Math.PI) / 4) as Radians;
     const line = createLinearElementWithCurveInsideMinMaxPoints("arrow");
     API.setElements([line]);
     API.setAppState({
@@ -477,8 +485,8 @@ describe("arrow", () => {
 
   //TODO: elements with curve outside minMax points have a wrong bounding box!!!
   it.skip("flips a rotated arrow horizontally with line outside min/max points bounds", async () => {
-    const originalAngle = Math.PI / 4;
-    const expectedAngle = (7 * Math.PI) / 4;
+    const originalAngle = (Math.PI / 4) as Radians;
+    const expectedAngle = ((7 * Math.PI) / 4) as Radians;
     const line = createLinearElementsWithCurveOutsideMinMaxPoints("arrow");
     API.updateElement(line, { angle: originalAngle });
     API.setElements([line]);
@@ -501,8 +509,8 @@ describe("arrow", () => {
 
   //TODO: elements with curve outside minMax points have a wrong bounding box!!!
   it.skip("flips a rotated arrow vertically with line outside min/max points bounds", async () => {
-    const originalAngle = Math.PI / 4;
-    const expectedAngle = (7 * Math.PI) / 4;
+    const originalAngle = (Math.PI / 4) as Radians;
+    const expectedAngle = ((7 * Math.PI) / 4) as Radians;
     const line = createLinearElementsWithCurveOutsideMinMaxPoints("arrow");
     API.updateElement(line, { angle: originalAngle });
     API.setElements([line]);
@@ -585,8 +593,8 @@ describe("line", () => {
 
   //TODO: elements with curve outside minMax points have a wrong bounding box
   it.skip("flips a rotated line horizontally with line outside min/max points bounds", async () => {
-    const originalAngle = Math.PI / 4;
-    const expectedAngle = (7 * Math.PI) / 4;
+    const originalAngle = (Math.PI / 4) as Radians;
+    const expectedAngle = ((7 * Math.PI) / 4) as Radians;
     const line = createLinearElementsWithCurveOutsideMinMaxPoints("line");
     API.updateElement(line, { angle: originalAngle });
     API.setElements([line]);
@@ -600,8 +608,8 @@ describe("line", () => {
 
   //TODO: elements with curve outside minMax points have a wrong bounding box
   it.skip("flips a rotated line vertically with line outside min/max points bounds", async () => {
-    const originalAngle = Math.PI / 4;
-    const expectedAngle = (7 * Math.PI) / 4;
+    const originalAngle = (Math.PI / 4) as Radians;
+    const expectedAngle = ((7 * Math.PI) / 4) as Radians;
     const line = createLinearElementsWithCurveOutsideMinMaxPoints("line");
     API.updateElement(line, { angle: originalAngle });
     API.setElements([line]);
@@ -619,8 +627,8 @@ describe("line", () => {
   });
 
   it("flips a rotated line horizontally with line inside min/max points bounds", async () => {
-    const originalAngle = Math.PI / 4;
-    const expectedAngle = (7 * Math.PI) / 4;
+    const originalAngle = (Math.PI / 4) as Radians;
+    const expectedAngle = ((7 * Math.PI) / 4) as Radians;
     const line = createLinearElementWithCurveInsideMinMaxPoints("line");
     API.setElements([line]);
     API.setAppState({
@@ -640,8 +648,8 @@ describe("line", () => {
   });
 
   it("flips a rotated line vertically with line inside min/max points bounds", async () => {
-    const originalAngle = Math.PI / 4;
-    const expectedAngle = (7 * Math.PI) / 4;
+    const originalAngle = (Math.PI / 4) as Radians;
+    const expectedAngle = ((7 * Math.PI) / 4) as Radians;
     const line = createLinearElementWithCurveInsideMinMaxPoints("line");
     API.setElements([line]);
     API.setAppState({
@@ -772,8 +780,8 @@ describe("image", () => {
   });
 
   it("flips an rotated image horizontally correctly", async () => {
-    const originalAngle = Math.PI / 4;
-    const expectedAngle = (7 * Math.PI) / 4;
+    const originalAngle = (Math.PI / 4) as Radians;
+    const expectedAngle = ((7 * Math.PI) / 4) as Radians;
     //paste image
     await createImage();
     await waitFor(() => {
@@ -790,8 +798,8 @@ describe("image", () => {
   });
 
   it("flips an rotated image vertically correctly", async () => {
-    const originalAngle = Math.PI / 4;
-    const expectedAngle = (7 * Math.PI) / 4;
+    const originalAngle = (Math.PI / 4) as Radians;
+    const expectedAngle = ((7 * Math.PI) / 4) as Radians;
     //paste image
     await createImage();
     await waitFor(() => {

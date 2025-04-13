@@ -1,17 +1,24 @@
-import { t } from "../i18n";
-import type { AppClassProperties, Device, UIAppState } from "../types";
+import { CANVAS_SEARCH_TAB, DEFAULT_SIDEBAR } from "@excalidraw/common";
+
 import {
   isFlowchartNodeElement,
   isImageElement,
   isLinearElement,
   isTextBindableContainer,
   isTextElement,
-} from "../element/typeChecks";
-import { getShortcutKey } from "../utils";
+} from "@excalidraw/element/typeChecks";
+
+import { getShortcutKey } from "@excalidraw/common";
+
+import { isNodeInFlowchart } from "@excalidraw/element/flowchart";
+
+import { t } from "../i18n";
 import { isEraserActive } from "../appState";
+import { isGridModeEnabled } from "../snapping";
 
 import "./HintViewer.scss";
-import { isNodeInFlowchart } from "../element/flowchart";
+
+import type { AppClassProperties, Device, UIAppState } from "../types";
 
 interface HintViewerProps {
   appState: UIAppState;
@@ -28,6 +35,14 @@ const getHints = ({
 }: HintViewerProps): null | string | string[] => {
   const { activeTool, isResizing, isRotating, lastPointerDownWith } = appState;
   const multiMode = appState.multiElement !== null;
+
+  if (
+    appState.openSidebar?.name === DEFAULT_SIDEBAR.name &&
+    appState.openSidebar.tab === CANVAS_SEARCH_TAB &&
+    appState.searchMatches?.length
+  ) {
+    return t("hints.dismissSearch");
+  }
 
   if (appState.openSidebar && !device.editor.canFitSidebar) {
     return null;
@@ -86,26 +101,34 @@ const getHints = ({
     return t("hints.text_selected");
   }
 
-  if (appState.editingElement && isTextElement(appState.editingElement)) {
+  if (appState.editingTextElement) {
     return t("hints.text_editing");
+  }
+
+  if (appState.croppingElementId) {
+    return t("hints.leaveCropEditor");
+  }
+
+  if (selectedElements.length === 1 && isImageElement(selectedElements[0])) {
+    return t("hints.enterCropEditor");
   }
 
   if (activeTool.type === "selection") {
     if (
       appState.selectionElement &&
       !selectedElements.length &&
-      !appState.editingElement &&
+      !appState.editingTextElement &&
       !appState.editingLinearElement
     ) {
-      return t("hints.deepBoxSelect");
+      return [t("hints.deepBoxSelect")];
     }
 
-    if (appState.gridSize && appState.selectedElementsAreBeingDragged) {
+    if (isGridModeEnabled(app) && appState.selectedElementsAreBeingDragged) {
       return t("hints.disableSnapping");
     }
 
     if (!selectedElements.length && !isMobile) {
-      return t("hints.canvasPanning");
+      return [t("hints.canvasPanning")];
     }
 
     if (selectedElements.length === 1) {

@@ -1,24 +1,26 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { vi } from "vitest";
+
+import { KEYS, reseed } from "@excalidraw/common";
+
+import { SHAPES } from "../components/shapes";
+
+import { Excalidraw } from "../index";
+import * as InteractiveCanvas from "../renderer/interactiveScene";
+import * as StaticScene from "../renderer/staticScene";
+
+import { API } from "./helpers/api";
+import { Keyboard, Pointer, UI } from "./helpers/ui";
 import {
   render,
   fireEvent,
   mockBoundingClientRect,
   restoreOriginalGetBoundingClientRect,
   assertSelectedElements,
+  unmountComponent,
 } from "./test-utils";
-import { Excalidraw } from "../index";
-import * as StaticScene from "../renderer/staticScene";
-import * as InteractiveCanvas from "../renderer/interactiveScene";
-import { KEYS } from "../keys";
-import { reseed } from "../random";
-import { API } from "./helpers/api";
-import { Keyboard, Pointer, UI } from "./helpers/ui";
-import { SHAPES } from "../shapes";
-import { vi } from "vitest";
 
-// Unmount ReactDOM from root
-ReactDOM.unmountComponentAtNode(document.getElementById("root")!);
+unmountComponent();
 
 const renderInteractiveScene = vi.spyOn(
   InteractiveCanvas,
@@ -314,8 +316,8 @@ describe("select single element on the scene", () => {
     fireEvent.pointerDown(canvas, { clientX: 45, clientY: 20 });
     fireEvent.pointerUp(canvas);
 
-    expect(renderInteractiveScene).toHaveBeenCalledTimes(9);
-    expect(renderStaticScene).toHaveBeenCalledTimes(7);
+    expect(renderInteractiveScene).toHaveBeenCalledTimes(8);
+    expect(renderStaticScene).toHaveBeenCalledTimes(6);
     expect(h.state.selectionElement).toBeNull();
     expect(h.elements.length).toEqual(1);
     expect(h.state.selectedElementIds[h.elements[0].id]).toBeTruthy();
@@ -346,8 +348,8 @@ describe("select single element on the scene", () => {
     fireEvent.pointerDown(canvas, { clientX: 45, clientY: 20 });
     fireEvent.pointerUp(canvas);
 
-    expect(renderInteractiveScene).toHaveBeenCalledTimes(9);
-    expect(renderStaticScene).toHaveBeenCalledTimes(7);
+    expect(renderInteractiveScene).toHaveBeenCalledTimes(8);
+    expect(renderStaticScene).toHaveBeenCalledTimes(6);
     expect(h.state.selectionElement).toBeNull();
     expect(h.elements.length).toEqual(1);
     expect(h.state.selectedElementIds[h.elements[0].id]).toBeTruthy();
@@ -378,8 +380,8 @@ describe("select single element on the scene", () => {
     fireEvent.pointerDown(canvas, { clientX: 45, clientY: 20 });
     fireEvent.pointerUp(canvas);
 
-    expect(renderInteractiveScene).toHaveBeenCalledTimes(9);
-    expect(renderStaticScene).toHaveBeenCalledTimes(7);
+    expect(renderInteractiveScene).toHaveBeenCalledTimes(8);
+    expect(renderStaticScene).toHaveBeenCalledTimes(6);
     expect(h.state.selectionElement).toBeNull();
     expect(h.elements.length).toEqual(1);
     expect(h.state.selectedElementIds[h.elements[0].id]).toBeTruthy();
@@ -423,8 +425,8 @@ describe("select single element on the scene", () => {
     fireEvent.pointerDown(canvas, { clientX: 40, clientY: 40 });
     fireEvent.pointerUp(canvas);
 
-    expect(renderInteractiveScene).toHaveBeenCalledTimes(9);
-    expect(renderStaticScene).toHaveBeenCalledTimes(7);
+    expect(renderInteractiveScene).toHaveBeenCalledTimes(8);
+    expect(renderStaticScene).toHaveBeenCalledTimes(6);
     expect(h.state.selectionElement).toBeNull();
     expect(h.elements.length).toEqual(1);
     expect(h.state.selectedElementIds[h.elements[0].id]).toBeTruthy();
@@ -467,8 +469,8 @@ describe("select single element on the scene", () => {
     fireEvent.pointerDown(canvas, { clientX: 40, clientY: 40 });
     fireEvent.pointerUp(canvas);
 
-    expect(renderInteractiveScene).toHaveBeenCalledTimes(9);
-    expect(renderStaticScene).toHaveBeenCalledTimes(7);
+    expect(renderInteractiveScene).toHaveBeenCalledTimes(8);
+    expect(renderStaticScene).toHaveBeenCalledTimes(6);
     expect(h.state.selectionElement).toBeNull();
     expect(h.elements.length).toEqual(1);
     expect(h.state.selectedElementIds[h.elements[0].id]).toBeTruthy();

@@ -5,6 +5,7 @@ exports[`contextMenu element > right-clicking on a group should select whole gro
   "activeEmbeddable": null,
   "activeTool": {
     "customType": null,
+    "fromSelection": false,
     "lastActiveTool": null,
     "locked": false,
     "type": "selection",
@@ -97,6 +98,7 @@ exports[`contextMenu element > right-clicking on a group should select whole gro
           "category": "element",
         },
       },
+      "separator",
       {
         "label": "labels.selectAllElementsInFrame",
         "name": "selectAllElementsInFrame",
@@ -114,6 +116,59 @@ exports[`contextMenu element > right-clicking on a group should select whole gro
         "trackEvent": {
           "category": "history",
         },
+      },
+      {
+        "label": "labels.wrapSelectionInFrame",
+        "name": "wrapSelectionInFrame",
+        "perform": [Function],
+        "predicate": [Function],
+        "trackEvent": {
+          "category": "element",
+        },
+      },
+      "separator",
+      {
+        "PanelComponent": [Function],
+        "icon": <svg
+          aria-hidden="true"
+          className=""
+          fill="none"
+          focusable="false"
+          role="img"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+        >
+          <g
+            strokeWidth="1.25"
+          >
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M8 5v10a1 1 0 0 0 1 1h10"
+            />
+            <path
+              d="M5 8h10a1 1 0 0 1 1 1v10"
+            />
+          </g>
+        </svg>,
+        "keywords": [
+          "image",
+          "crop",
+        ],
+        "label": "helpDialog.cropStart",
+        "name": "cropEditor",
+        "perform": [Function],
+        "predicate": [Function],
+        "trackEvent": {
+          "category": "menu",
+        },
+        "viewMode": true,
       },
       "separator",
       {
@@ -684,6 +739,7 @@ exports[`contextMenu element > right-clicking on a group should select whole gro
           "category": "element",
         },
       },
+      "separator",
       {
         "PanelComponent": [Function],
         "icon": <svg
@@ -718,6 +774,42 @@ exports[`contextMenu element > right-clicking on a group should select whole gro
           "category": "hyperlink",
         },
       },
+      {
+        "icon": <svg
+          aria-hidden="true"
+          className=""
+          fill="none"
+          focusable="false"
+          role="img"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+        >
+          <React.Fragment>
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"
+            />
+            <path
+              d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"
+            />
+          </React.Fragment>
+        </svg>,
+        "label": "labels.copyElementLink",
+        "name": "copyElementLink",
+        "perform": [Function],
+        "predicate": [Function],
+        "trackEvent": {
+          "category": "element",
+        },
+      },
+      "separator",
       {
         "PanelComponent": [Function],
         "icon": <svg
@@ -794,6 +886,7 @@ exports[`contextMenu element > right-clicking on a group should select whole gro
     "left": 30,
     "top": 40,
   },
+  "croppingElementId": null,
   "currentChartType": "bar",
   "currentHoveredFontFamily": null,
   "currentItemArrowType": "round",
@@ -812,10 +905,10 @@ exports[`contextMenu element > right-clicking on a group should select whole gro
   "currentItemTextAlign": "left",
   "cursorButton": "up",
   "defaultSidebarDockedPreference": false,
-  "editingElement": null,
   "editingFrame": null,
   "editingGroupId": null,
   "editingLinearElement": null,
+  "editingTextElement": null,
   "elementsToHighlight": null,
   "errorMessage": null,
   "exportBackground": true,
@@ -831,9 +924,13 @@ exports[`contextMenu element > right-clicking on a group should select whole gro
     "outline": true,
   },
   "frameToHighlight": null,
-  "gridSize": null,
+  "gridModeEnabled": false,
+  "gridSize": 20,
+  "gridStep": 5,
   "height": 100,
+  "hoveredElementIds": {},
   "isBindingEnabled": true,
+  "isCropping": false,
   "isLoading": false,
   "isResizing": false,
   "isRotating": false,
@@ -864,6 +961,7 @@ exports[`contextMenu element > right-clicking on a group should select whole gro
   "scrollX": 0,
   "scrollY": 0,
   "scrolledOutside": false,
+  "searchMatches": [],
   "selectedElementIds": {
     "id0": true,
     "id1": true,
@@ -919,14 +1017,14 @@ exports[`contextMenu element > right-clicking on a group should select whole gro
   "roundness": {
     "type": 3,
   },
-  "seed": 1278240551,
+  "seed": 1,
   "strokeColor": "#1e1e1e",
   "strokeStyle": "solid",
   "strokeWidth": 2,
   "type": "rectangle",
   "updated": 1,
   "version": 2,
-  "versionNonce": 453191,
+  "versionNonce": 1278240551,
   "width": 100,
   "x": 0,
   "y": 0,
@@ -955,14 +1053,14 @@ exports[`contextMenu element > right-clicking on a group should select whole gro
   "roundness": {
     "type": 3,
   },
-  "seed": 449462985,
+  "seed": 1,
   "strokeColor": "#1e1e1e",
   "strokeStyle": "solid",
   "strokeWidth": 2,
   "type": "rectangle",
   "updated": 1,
   "version": 2,
-  "versionNonce": 401146281,
+  "versionNonce": 449462985,
   "width": 100,
   "x": 0,
   "y": 0,
@@ -991,12 +1089,14 @@ exports[`contextMenu element > selecting 'Add to library' in context menu adds e
   "activeEmbeddable": null,
   "activeTool": {
     "customType": null,
+    "fromSelection": false,
     "lastActiveTool": null,
     "locked": false,
     "type": "selection",
   },
   "collaborators": Map {},
   "contextMenu": null,
+  "croppingElementId": null,
   "currentChartType": "bar",
   "currentHoveredFontFamily": null,
   "currentItemArrowType": "round",
@@ -1015,10 +1115,10 @@ exports[`contextMenu element > selecting 'Add to library' in context menu adds e
   "currentItemTextAlign": "left",
   "cursorButton": "up",
   "defaultSidebarDockedPreference": false,
-  "editingElement": null,
   "editingFrame": null,
   "editingGroupId": null,
   "editingLinearElement": null,
+  "editingTextElement": null,
   "elementsToHighlight": null,
   "errorMessage": null,
   "exportBackground": true,
@@ -1034,9 +1134,13 @@ exports[`contextMenu element > selecting 'Add to library' in context menu adds e
     "outline": true,
   },
   "frameToHighlight": null,
-  "gridSize": null,
+  "gridModeEnabled": false,
+  "gridSize": 20,
+  "gridStep": 5,
   "height": 100,
+  "hoveredElementIds": {},
   "isBindingEnabled": true,
+  "isCropping": false,
   "isLoading": false,
   "isResizing": false,
   "isRotating": false,
@@ -1064,6 +1168,7 @@ exports[`contextMenu element > selecting 'Add to library' in context menu adds e
   "scrollX": 0,
   "scrollY": 0,
   "scrolledOutside": false,
+  "searchMatches": [],
   "selectedElementIds": {
     "id0": true,
   },
@@ -1197,19 +1302,21 @@ History {
 
 exports[`contextMenu element > selecting 'Add to library' in context menu adds element to library > [end of test] number of elements 1`] = `1`;
 
-exports[`contextMenu element > selecting 'Add to library' in context menu adds element to library > [end of test] number of renders 1`] = `6`;
+exports[`contextMenu element > selecting 'Add to library' in context menu adds element to library > [end of test] number of renders 1`] = `5`;
 
 exports[`contextMenu element > selecting 'Bring forward' in context menu brings element forward > [end of test] appState 1`] = `
 {
   "activeEmbeddable": null,
   "activeTool": {
     "customType": null,
+    "fromSelection": false,
     "lastActiveTool": null,
     "locked": false,
     "type": "selection",
   },
   "collaborators": Map {},
   "contextMenu": null,
+  "croppingElementId": null,
   "currentChartType": "bar",
   "currentHoveredFontFamily": null,
   "currentItemArrowType": "round",
@@ -1228,10 +1335,10 @@ exports[`contextMenu element > selecting 'Bring forward' in context menu brings 
   "currentItemTextAlign": "left",
   "cursorButton": "up",
   "defaultSidebarDockedPreference": false,
-  "editingElement": null,
   "editingFrame": null,
   "editingGroupId": null,
   "editingLinearElement": null,
+  "editingTextElement": null,
   "elementsToHighlight": null,
   "errorMessage": null,
   "exportBackground": true,
@@ -1247,9 +1354,13 @@ exports[`contextMenu element > selecting 'Bring forward' in context menu brings 
     "outline": true,
   },
   "frameToHighlight": null,
-  "gridSize": null,
+  "gridModeEnabled": false,
+  "gridSize": 20,
+  "gridStep": 5,
   "height": 100,
+  "hoveredElementIds": {},
   "isBindingEnabled": true,
+  "isCropping": false,
   "isLoading": false,
   "isResizing": false,
   "isRotating": false,
@@ -1277,6 +1388,7 @@ exports[`contextMenu element > selecting 'Bring forward' in context menu brings 
   "scrollX": 0,
   "scrollY": 0,
   "scrolledOutside": false,
+  "searchMatches": [],
   "selectedElementIds": {
     "id0": true,
   },
@@ -1525,19 +1637,21 @@ History {
 
 exports[`contextMenu element > selecting 'Bring forward' in context menu brings element forward > [end of test] number of elements 1`] = `2`;
 
-exports[`contextMenu element > selecting 'Bring forward' in context menu brings element forward > [end of test] number of renders 1`] = `12`;
+exports[`contextMenu element > selecting 'Bring forward' in context menu brings element forward > [end of test] number of renders 1`] = `10`;
 
 exports[`contextMenu element > selecting 'Bring to front' in context menu brings element to front > [end of test] appState 1`] = `
 {
   "activeEmbeddable": null,
   "activeTool": {
     "customType": null,
+    "fromSelection": false,
     "lastActiveTool": null,
     "locked": false,
     "type": "selection",
   },
   "collaborators": Map {},
   "contextMenu": null,
+  "croppingElementId": null,
   "currentChartType": "bar",
   "currentHoveredFontFamily": null,
   "currentItemArrowType": "round",
@@ -1556,10 +1670,10 @@ exports[`contextMenu element > selecting 'Bring to front' in context menu brings
   "currentItemTextAlign": "left",
   "cursorButton": "up",
   "defaultSidebarDockedPreference": false,
-  "editingElement": null,
   "editingFrame": null,
   "editingGroupId": null,
   "editingLinearElement": null,
+  "editingTextElement": null,
   "elementsToHighlight": null,
   "errorMessage": null,
   "exportBackground": true,
@@ -1575,9 +1689,13 @@ exports[`contextMenu element > selecting 'Bring to front' in context menu brings
     "outline": true,
   },
   "frameToHighlight": null,
-  "gridSize": null,
+  "gridModeEnabled": false,
+  "gridSize": 20,
+  "gridStep": 5,
   "height": 100,
+  "hoveredElementIds": {},
   "isBindingEnabled": true,
+  "isCropping": false,
   "isLoading": false,
   "isResizing": false,
   "isRotating": false,
@@ -1605,6 +1723,7 @@ exports[`contextMenu element > selecting 'Bring to front' in context menu brings
   "scrollX": 0,
   "scrollY": 0,
   "scrolledOutside": false,
+  "searchMatches": [],
   "selectedElementIds": {
     "id0": true,
   },
@@ -1853,19 +1972,21 @@ History {
 
 exports[`contextMenu element > selecting 'Bring to front' in context menu brings element to front > [end of test] number of elements 1`] = `2`;
 
-exports[`contextMenu element > selecting 'Bring to front' in context menu brings element to front > [end of test] number of renders 1`] = `12`;
+exports[`contextMenu element > selecting 'Bring to front' in context menu brings element to front > [end of test] number of renders 1`] = `10`;
 
 exports[`contextMenu element > selecting 'Copy styles' in context menu copies styles > [end of test] appState 1`] = `
 {
   "activeEmbeddable": null,
   "activeTool": {
     "customType": null,
+    "fromSelection": false,
     "lastActiveTool": null,
     "locked": false,
     "type": "selection",
   },
   "collaborators": Map {},
   "contextMenu": null,
+  "croppingElementId": null,
   "currentChartType": "bar",
   "currentHoveredFontFamily": null,
   "currentItemArrowType": "round",
@@ -1884,10 +2005,10 @@ exports[`contextMenu element > selecting 'Copy styles' in context menu copies st
   "currentItemTextAlign": "left",
   "cursorButton": "up",
   "defaultSidebarDockedPreference": false,
-  "editingElement": null,
   "editingFrame": null,
   "editingGroupId": null,
   "editingLinearElement": null,
+  "editingTextElement": null,
   "elementsToHighlight": null,
   "errorMessage": null,
   "exportBackground": true,
@@ -1903,9 +2024,13 @@ exports[`contextMenu element > selecting 'Copy styles' in context menu copies st
     "outline": true,
   },
   "frameToHighlight": null,
-  "gridSize": null,
+  "gridModeEnabled": false,
+  "gridSize": 20,
+  "gridStep": 5,
   "height": 100,
+  "hoveredElementIds": {},
   "isBindingEnabled": true,
+  "isCropping": false,
   "isLoading": false,
   "isResizing": false,
   "isRotating": false,
@@ -1933,6 +2058,7 @@ exports[`contextMenu element > selecting 'Copy styles' in context menu copies st
   "scrollX": 0,
   "scrollY": 0,
   "scrolledOutside": false,
+  "searchMatches": [],
   "selectedElementIds": {
     "id0": true,
   },
@@ -2066,19 +2192,21 @@ History {
 
 exports[`contextMenu element > selecting 'Copy styles' in context menu copies styles > [end of test] number of elements 1`] = `1`;
 
-exports[`contextMenu element > selecting 'Copy styles' in context menu copies styles > [end of test] number of renders 1`] = `6`;
+exports[`contextMenu element > selecting 'Copy styles' in context menu copies styles > [end of test] number of renders 1`] = `5`;
 
 exports[`contextMenu element > selecting 'Delete' in context menu deletes element > [end of test] appState 1`] = `
 {
   "activeEmbeddable": null,
   "activeTool": {
     "customType": null,
+    "fromSelection": false,
     "lastActiveTool": null,
     "locked": false,
     "type": "selection",
   },
   "collaborators": Map {},
   "contextMenu": null,
+  "croppingElementId": null,
   "currentChartType": "bar",
   "currentHoveredFontFamily": null,
   "currentItemArrowType": "round",
@@ -2097,10 +2225,10 @@ exports[`contextMenu element > selecting 'Delete' in context menu deletes elemen
   "currentItemTextAlign": "left",
   "cursorButton": "up",
   "defaultSidebarDockedPreference": false,
-  "editingElement": null,
   "editingFrame": null,
   "editingGroupId": null,
   "editingLinearElement": null,
+  "editingTextElement": null,
   "elementsToHighlight": null,
   "errorMessage": null,
   "exportBackground": true,
@@ -2116,9 +2244,13 @@ exports[`contextMenu element > selecting 'Delete' in context menu deletes elemen
     "outline": true,
   },
   "frameToHighlight": null,
-  "gridSize": null,
+  "gridModeEnabled": false,
+  "gridSize": 20,
+  "gridStep": 5,
   "height": 100,
+  "hoveredElementIds": {},
   "isBindingEnabled": true,
+  "isCropping": false,
   "isLoading": false,
   "isResizing": false,
   "isRotating": false,
@@ -2146,6 +2278,7 @@ exports[`contextMenu element > selecting 'Delete' in context menu deletes elemen
   "scrollX": 0,
   "scrollY": 0,
   "scrolledOutside": false,
+  "searchMatches": [],
   "selectedElementIds": {},
   "selectedElementsAreBeingDragged": false,
   "selectedGroupIds": {},
@@ -2303,19 +2436,21 @@ History {
 
 exports[`contextMenu element > selecting 'Delete' in context menu deletes element > [end of test] number of elements 1`] = `1`;
 
-exports[`contextMenu element > selecting 'Delete' in context menu deletes element > [end of test] number of renders 1`] = `7`;
+exports[`contextMenu element > selecting 'Delete' in context menu deletes element > [end of test] number of renders 1`] = `6`;
 
 exports[`contextMenu element > selecting 'Duplicate' in context menu duplicates element > [end of test] appState 1`] = `
 {
   "activeEmbeddable": null,
   "activeTool": {
     "customType": null,
+    "fromSelection": false,
     "lastActiveTool": null,
     "locked": false,
     "type": "selection",
   },
   "collaborators": Map {},
   "contextMenu": null,
+  "croppingElementId": null,
   "currentChartType": "bar",
   "currentHoveredFontFamily": null,
   "currentItemArrowType": "round",
@@ -2334,10 +2469,10 @@ exports[`contextMenu element > selecting 'Duplicate' in context menu duplicates 
   "currentItemTextAlign": "left",
   "cursorButton": "up",
   "defaultSidebarDockedPreference": false,
-  "editingElement": null,
   "editingFrame": null,
   "editingGroupId": null,
   "editingLinearElement": null,
+  "editingTextElement": null,
   "elementsToHighlight": null,
   "errorMessage": null,
   "exportBackground": true,
@@ -2353,9 +2488,13 @@ exports[`contextMenu element > selecting 'Duplicate' in context menu duplicates 
     "outline": true,
   },
   "frameToHighlight": null,
-  "gridSize": null,
+  "gridModeEnabled": false,
+  "gridSize": 20,
+  "gridStep": 5,
   "height": 100,
+  "hoveredElementIds": {},
   "isBindingEnabled": true,
+  "isCropping": false,
   "isLoading": false,
   "isResizing": false,
   "isRotating": false,
@@ -2383,8 +2522,9 @@ exports[`contextMenu element > selecting 'Duplicate' in context menu duplicates 
   "scrollX": 0,
   "scrollY": 0,
   "scrolledOutside": false,
+  "searchMatches": [],
   "selectedElementIds": {
-    "id0_copy": true,
+    "id1": true,
   },
   "selectedElementsAreBeingDragged": false,
   "selectedGroupIds": {},
@@ -2457,7 +2597,7 @@ exports[`contextMenu element > selecting 'Duplicate' in context menu duplicates 
   "frameId": null,
   "groupIds": [],
   "height": 20,
-  "id": "id0_copy",
+  "id": "id1",
   "index": "a1",
   "isDeleted": false,
   "link": null,
@@ -2473,8 +2613,8 @@ exports[`contextMenu element > selecting 'Duplicate' in context menu duplicates 
   "strokeWidth": 2,
   "type": "rectangle",
   "updated": 1,
-  "version": 4,
-  "versionNonce": 238820263,
+  "version": 5,
+  "versionNonce": 400692809,
   "width": 20,
   "x": 0,
   "y": 10,
@@ -2547,7 +2687,7 @@ History {
         "delta": Delta {
           "deleted": {
             "selectedElementIds": {
-              "id0_copy": true,
+              "id1": true,
             },
           },
           "inserted": {
@@ -2560,7 +2700,7 @@ History {
       "elementsChange": ElementsChange {
         "added": Map {},
         "removed": Map {
-          "id0_copy" => Delta {
+          "id1" => Delta {
             "deleted": {
               "angle": 0,
               "backgroundColor": "transparent",
@@ -2601,19 +2741,21 @@ History {
 
 exports[`contextMenu element > selecting 'Duplicate' in context menu duplicates element > [end of test] number of elements 1`] = `2`;
 
-exports[`contextMenu element > selecting 'Duplicate' in context menu duplicates element > [end of test] number of renders 1`] = `7`;
+exports[`contextMenu element > selecting 'Duplicate' in context menu duplicates element > [end of test] number of renders 1`] = `6`;
 
 exports[`contextMenu element > selecting 'Group selection' in context menu groups selected elements > [end of test] appState 1`] = `
 {
   "activeEmbeddable": null,
   "activeTool": {
     "customType": null,
+    "fromSelection": false,
     "lastActiveTool": null,
     "locked": false,
     "type": "selection",
   },
   "collaborators": Map {},
   "contextMenu": null,
+  "croppingElementId": null,
   "currentChartType": "bar",
   "currentHoveredFontFamily": null,
   "currentItemArrowType": "round",
@@ -2632,10 +2774,10 @@ exports[`contextMenu element > selecting 'Group selection' in context menu group
   "currentItemTextAlign": "left",
   "cursorButton": "up",
   "defaultSidebarDockedPreference": false,
-  "editingElement": null,
   "editingFrame": null,
   "editingGroupId": null,
   "editingLinearElement": null,
+  "editingTextElement": null,
   "elementsToHighlight": null,
   "errorMessage": null,
   "exportBackground": true,
@@ -2651,9 +2793,13 @@ exports[`contextMenu element > selecting 'Group selection' in context menu group
     "outline": true,
   },
   "frameToHighlight": null,
-  "gridSize": null,
+  "gridModeEnabled": false,
+  "gridSize": 20,
+  "gridStep": 5,
   "height": 100,
+  "hoveredElementIds": {},
   "isBindingEnabled": true,
+  "isCropping": false,
   "isLoading": false,
   "isResizing": false,
   "isRotating": false,
@@ -2683,6 +2829,7 @@ exports[`contextMenu element > selecting 'Group selection' in context menu group
   "scrollX": 0,
   "scrollY": 0,
   "scrolledOutside": false,
+  "searchMatches": [],
   "selectedElementIds": {
     "id0": true,
     "id1": true,
@@ -2967,19 +3114,21 @@ History {
 
 exports[`contextMenu element > selecting 'Group selection' in context menu groups selected elements > [end of test] number of elements 1`] = `2`;
 
-exports[`contextMenu element > selecting 'Group selection' in context menu groups selected elements > [end of test] number of renders 1`] = `12`;
+exports[`contextMenu element > selecting 'Group selection' in context menu groups selected elements > [end of test] number of renders 1`] = `10`;
 
 exports[`contextMenu element > selecting 'Paste styles' in context menu pastes styles > [end of test] appState 1`] = `
 {
   "activeEmbeddable": null,
   "activeTool": {
     "customType": null,
+    "fromSelection": false,
     "lastActiveTool": null,
     "locked": false,
     "type": "selection",
   },
   "collaborators": Map {},
   "contextMenu": null,
+  "croppingElementId": null,
   "currentChartType": "bar",
   "currentHoveredFontFamily": null,
   "currentItemArrowType": "round",
@@ -2998,10 +3147,10 @@ exports[`contextMenu element > selecting 'Paste styles' in context menu pastes s
   "currentItemTextAlign": "left",
   "cursorButton": "up",
   "defaultSidebarDockedPreference": false,
-  "editingElement": null,
   "editingFrame": null,
   "editingGroupId": null,
   "editingLinearElement": null,
+  "editingTextElement": null,
   "elementsToHighlight": null,
   "errorMessage": null,
   "exportBackground": true,
@@ -3017,9 +3166,13 @@ exports[`contextMenu element > selecting 'Paste styles' in context menu pastes s
     "outline": true,
   },
   "frameToHighlight": null,
-  "gridSize": null,
+  "gridModeEnabled": false,
+  "gridSize": 20,
+  "gridStep": 5,
   "height": 100,
+  "hoveredElementIds": {},
   "isBindingEnabled": true,
+  "isCropping": false,
   "isLoading": false,
   "isResizing": false,
   "isRotating": false,
@@ -3047,6 +3200,7 @@ exports[`contextMenu element > selecting 'Paste styles' in context menu pastes s
   "scrollX": 0,
   "scrollY": 0,
   "scrolledOutside": false,
+  "searchMatches": [],
   "selectedElementIds": {
     "id0": true,
   },
@@ -3439,19 +3593,21 @@ History {
 
 exports[`contextMenu element > selecting 'Paste styles' in context menu pastes styles > [end of test] number of elements 1`] = `2`;
 
-exports[`contextMenu element > selecting 'Paste styles' in context menu pastes styles > [end of test] number of renders 1`] = `18`;
+exports[`contextMenu element > selecting 'Paste styles' in context menu pastes styles > [end of test] number of renders 1`] = `16`;
 
 exports[`contextMenu element > selecting 'Send backward' in context menu sends element backward > [end of test] appState 1`] = `
 {
   "activeEmbeddable": null,
   "activeTool": {
     "customType": null,
+    "fromSelection": false,
     "lastActiveTool": null,
     "locked": false,
     "type": "selection",
   },
   "collaborators": Map {},
   "contextMenu": null,
+  "croppingElementId": null,
   "currentChartType": "bar",
   "currentHoveredFontFamily": null,
   "currentItemArrowType": "round",
@@ -3470,10 +3626,10 @@ exports[`contextMenu element > selecting 'Send backward' in context menu sends e
   "currentItemTextAlign": "left",
   "cursorButton": "up",
   "defaultSidebarDockedPreference": false,
-  "editingElement": null,
   "editingFrame": null,
   "editingGroupId": null,
   "editingLinearElement": null,
+  "editingTextElement": null,
   "elementsToHighlight": null,
   "errorMessage": null,
   "exportBackground": true,
@@ -3489,9 +3645,13 @@ exports[`contextMenu element > selecting 'Send backward' in context menu sends e
     "outline": true,
   },
   "frameToHighlight": null,
-  "gridSize": null,
+  "gridModeEnabled": false,
+  "gridSize": 20,
+  "gridStep": 5,
   "height": 100,
+  "hoveredElementIds": {},
   "isBindingEnabled": true,
+  "isCropping": false,
   "isLoading": false,
   "isResizing": false,
   "isRotating": false,
@@ -3519,6 +3679,7 @@ exports[`contextMenu element > selecting 'Send backward' in context menu sends e
   "scrollX": 0,
   "scrollY": 0,
   "scrolledOutside": false,
+  "searchMatches": [],
   "selectedElementIds": {
     "id1": true,
   },
@@ -3759,19 +3920,21 @@ History {
 
 exports[`contextMenu element > selecting 'Send backward' in context menu sends element backward > [end of test] number of elements 1`] = `2`;
 
-exports[`contextMenu element > selecting 'Send backward' in context menu sends element backward > [end of test] number of renders 1`] = `11`;
+exports[`contextMenu element > selecting 'Send backward' in context menu sends element backward > [end of test] number of renders 1`] = `9`;
 
 exports[`contextMenu element > selecting 'Send to back' in context menu sends element to back > [end of test] appState 1`] = `
 {
   "activeEmbeddable": null,
   "activeTool": {
     "customType": null,
+    "fromSelection": false,
     "lastActiveTool": null,
     "locked": false,
     "type": "selection",
   },
   "collaborators": Map {},
   "contextMenu": null,
+  "croppingElementId": null,
   "currentChartType": "bar",
   "currentHoveredFontFamily": null,
   "currentItemArrowType": "round",
@@ -3790,10 +3953,10 @@ exports[`contextMenu element > selecting 'Send to back' in context menu sends el
   "currentItemTextAlign": "left",
   "cursorButton": "up",
   "defaultSidebarDockedPreference": false,
-  "editingElement": null,
   "editingFrame": null,
   "editingGroupId": null,
   "editingLinearElement": null,
+  "editingTextElement": null,
   "elementsToHighlight": null,
   "errorMessage": null,
   "exportBackground": true,
@@ -3809,9 +3972,13 @@ exports[`contextMenu element > selecting 'Send to back' in context menu sends el
     "outline": true,
   },
   "frameToHighlight": null,
-  "gridSize": null,
+  "gridModeEnabled": false,
+  "gridSize": 20,
+  "gridStep": 5,
   "height": 100,
+  "hoveredElementIds": {},
   "isBindingEnabled": true,
+  "isCropping": false,
   "isLoading": false,
   "isResizing": false,
   "isRotating": false,
@@ -3839,6 +4006,7 @@ exports[`contextMenu element > selecting 'Send to back' in context menu sends el
   "scrollX": 0,
   "scrollY": 0,
   "scrolledOutside": false,
+  "searchMatches": [],
   "selectedElementIds": {
     "id1": true,
   },
@@ -4079,19 +4247,21 @@ History {
 
 exports[`contextMenu element > selecting 'Send to back' in context menu sends element to back > [end of test] number of elements 1`] = `2`;
 
-exports[`contextMenu element > selecting 'Send to back' in context menu sends element to back > [end of test] number of renders 1`] = `11`;
+exports[`contextMenu element > selecting 'Send to back' in context menu sends element to back > [end of test] number of renders 1`] = `9`;
 
 exports[`contextMenu element > selecting 'Ungroup selection' in context menu ungroups selected group > [end of test] appState 1`] = `
 {
   "activeEmbeddable": null,
   "activeTool": {
     "customType": null,
+    "fromSelection": false,
     "lastActiveTool": null,
     "locked": false,
     "type": "selection",
   },
   "collaborators": Map {},
   "contextMenu": null,
+  "croppingElementId": null,
   "currentChartType": "bar",
   "currentHoveredFontFamily": null,
   "currentItemArrowType": "round",
@@ -4110,10 +4280,10 @@ exports[`contextMenu element > selecting 'Ungroup selection' in context menu ung
   "currentItemTextAlign": "left",
   "cursorButton": "up",
   "defaultSidebarDockedPreference": false,
-  "editingElement": null,
   "editingFrame": null,
   "editingGroupId": null,
   "editingLinearElement": null,
+  "editingTextElement": null,
   "elementsToHighlight": null,
   "errorMessage": null,
   "exportBackground": true,
@@ -4129,9 +4299,13 @@ exports[`contextMenu element > selecting 'Ungroup selection' in context menu ung
     "outline": true,
   },
   "frameToHighlight": null,
-  "gridSize": null,
+  "gridModeEnabled": false,
+  "gridSize": 20,
+  "gridStep": 5,
   "height": 100,
+  "hoveredElementIds": {},
   "isBindingEnabled": true,
+  "isCropping": false,
   "isLoading": false,
   "isResizing": false,
   "isRotating": false,
@@ -4161,6 +4335,7 @@ exports[`contextMenu element > selecting 'Ungroup selection' in context menu ung
   "scrollX": 0,
   "scrollY": 0,
   "scrolledOutside": false,
+  "searchMatches": [],
   "selectedElementIds": {
     "id0": true,
     "id1": true,
@@ -4479,13 +4654,14 @@ History {
 
 exports[`contextMenu element > selecting 'Ungroup selection' in context menu ungroups selected group > [end of test] number of elements 1`] = `2`;
 
-exports[`contextMenu element > selecting 'Ungroup selection' in context menu ungroups selected group > [end of test] number of renders 1`] = `13`;
+exports[`contextMenu element > selecting 'Ungroup selection' in context menu ungroups selected group > [end of test] number of renders 1`] = `11`;
 
 exports[`contextMenu element > shows 'Group selection' in context menu for multiple selected elements > [end of test] appState 1`] = `
 {
   "activeEmbeddable": null,
   "activeTool": {
     "customType": null,
+    "fromSelection": false,
     "lastActiveTool": null,
     "locked": false,
     "type": "selection",
@@ -4578,6 +4754,7 @@ exports[`contextMenu element > shows 'Group selection' in context menu for multi
           "category": "element",
         },
       },
+      "separator",
       {
         "label": "labels.selectAllElementsInFrame",
         "name": "selectAllElementsInFrame",
@@ -4595,6 +4772,59 @@ exports[`contextMenu element > shows 'Group selection' in context menu for multi
         "trackEvent": {
           "category": "history",
         },
+      },
+      {
+        "label": "labels.wrapSelectionInFrame",
+        "name": "wrapSelectionInFrame",
+        "perform": [Function],
+        "predicate": [Function],
+        "trackEvent": {
+          "category": "element",
+        },
+      },
+      "separator",
+      {
+        "PanelComponent": [Function],
+        "icon": <svg
+          aria-hidden="true"
+          className=""
+          fill="none"
+          focusable="false"
+          role="img"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+        >
+          <g
+            strokeWidth="1.25"
+          >
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M8 5v10a1 1 0 0 0 1 1h10"
+            />
+            <path
+              d="M5 8h10a1 1 0 0 1 1 1v10"
+            />
+          </g>
+        </svg>,
+        "keywords": [
+          "image",
+          "crop",
+        ],
+        "label": "helpDialog.cropStart",
+        "name": "cropEditor",
+        "perform": [Function],
+        "predicate": [Function],
+        "trackEvent": {
+          "category": "menu",
+        },
+        "viewMode": true,
       },
       "separator",
       {
@@ -5165,6 +5395,7 @@ exports[`contextMenu element > shows 'Group selection' in context menu for multi
           "category": "element",
         },
       },
+      "separator",
       {
         "PanelComponent": [Function],
         "icon": <svg
@@ -5199,6 +5430,42 @@ exports[`contextMenu element > shows 'Group selection' in context menu for multi
           "category": "hyperlink",
         },
       },
+      {
+        "icon": <svg
+          aria-hidden="true"
+          className=""
+          fill="none"
+          focusable="false"
+          role="img"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+        >
+          <React.Fragment>
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"
+            />
+            <path
+              d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"
+            />
+          </React.Fragment>
+        </svg>,
+        "label": "labels.copyElementLink",
+        "name": "copyElementLink",
+        "perform": [Function],
+        "predicate": [Function],
+        "trackEvent": {
+          "category": "element",
+        },
+      },
+      "separator",
       {
         "PanelComponent": [Function],
         "icon": <svg
@@ -5275,6 +5542,7 @@ exports[`contextMenu element > shows 'Group selection' in context menu for multi
     "left": -17,
     "top": -7,
   },
+  "croppingElementId": null,
   "currentChartType": "bar",
   "currentHoveredFontFamily": null,
   "currentItemArrowType": "round",
@@ -5293,10 +5561,10 @@ exports[`contextMenu element > shows 'Group selection' in context menu for multi
   "currentItemTextAlign": "left",
   "cursorButton": "up",
   "defaultSidebarDockedPreference": false,
-  "editingElement": null,
   "editingFrame": null,
   "editingGroupId": null,
   "editingLinearElement": null,
+  "editingTextElement": null,
   "elementsToHighlight": null,
   "errorMessage": null,
   "exportBackground": true,
@@ -5312,9 +5580,13 @@ exports[`contextMenu element > shows 'Group selection' in context menu for multi
     "outline": true,
   },
   "frameToHighlight": null,
-  "gridSize": null,
+  "gridModeEnabled": false,
+  "gridSize": 20,
+  "gridStep": 5,
   "height": 100,
+  "hoveredElementIds": {},
   "isBindingEnabled": true,
+  "isCropping": false,
   "isLoading": false,
   "isResizing": false,
   "isRotating": false,
@@ -5344,6 +5616,7 @@ exports[`contextMenu element > shows 'Group selection' in context menu for multi
   "scrollX": 0,
   "scrollY": 0,
   "scrolledOutside": false,
+  "searchMatches": [],
   "selectedElementIds": {
     "id0": true,
     "id1": true,
@@ -5603,13 +5876,14 @@ History {
 
 exports[`contextMenu element > shows 'Group selection' in context menu for multiple selected elements > [end of test] number of elements 1`] = `2`;
 
-exports[`contextMenu element > shows 'Group selection' in context menu for multiple selected elements > [end of test] number of renders 1`] = `12`;
+exports[`contextMenu element > shows 'Group selection' in context menu for multiple selected elements > [end of test] number of renders 1`] = `10`;
 
 exports[`contextMenu element > shows 'Ungroup selection' in context menu for group inside selected elements > [end of test] appState 1`] = `
 {
   "activeEmbeddable": null,
   "activeTool": {
     "customType": null,
+    "fromSelection": false,
     "lastActiveTool": null,
     "locked": false,
     "type": "selection",
@@ -5702,6 +5976,7 @@ exports[`contextMenu element > shows 'Ungroup selection' in context menu for gro
           "category": "element",
         },
       },
+      "separator",
       {
         "label": "labels.selectAllElementsInFrame",
         "name": "selectAllElementsInFrame",
@@ -5719,6 +5994,59 @@ exports[`contextMenu element > shows 'Ungroup selection' in context menu for gro
         "trackEvent": {
           "category": "history",
         },
+      },
+      {
+        "label": "labels.wrapSelectionInFrame",
+        "name": "wrapSelectionInFrame",
+        "perform": [Function],
+        "predicate": [Function],
+        "trackEvent": {
+          "category": "element",
+        },
+      },
+      "separator",
+      {
+        "PanelComponent": [Function],
+        "icon": <svg
+          aria-hidden="true"
+          className=""
+          fill="none"
+          focusable="false"
+          role="img"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+        >
+          <g
+            strokeWidth="1.25"
+          >
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M8 5v10a1 1 0 0 0 1 1h10"
+            />
+            <path
+              d="M5 8h10a1 1 0 0 1 1 1v10"
+            />
+          </g>
+        </svg>,
+        "keywords": [
+          "image",
+          "crop",
+        ],
+        "label": "helpDialog.cropStart",
+        "name": "cropEditor",
+        "perform": [Function],
+        "predicate": [Function],
+        "trackEvent": {
+          "category": "menu",
+        },
+        "viewMode": true,
       },
       "separator",
       {
@@ -6289,6 +6617,7 @@ exports[`contextMenu element > shows 'Ungroup selection' in context menu for gro
           "category": "element",
         },
       },
+      "separator",
       {
         "PanelComponent": [Function],
         "icon": <svg
@@ -6323,6 +6652,42 @@ exports[`contextMenu element > shows 'Ungroup selection' in context menu for gro
           "category": "hyperlink",
         },
       },
+      {
+        "icon": <svg
+          aria-hidden="true"
+          className=""
+          fill="none"
+          focusable="false"
+          role="img"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+        >
+          <React.Fragment>
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"
+            />
+            <path
+              d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"
+            />
+          </React.Fragment>
+        </svg>,
+        "label": "labels.copyElementLink",
+        "name": "copyElementLink",
+        "perform": [Function],
+        "predicate": [Function],
+        "trackEvent": {
+          "category": "element",
+        },
+      },
+      "separator",
       {
         "PanelComponent": [Function],
         "icon": <svg
@@ -6399,6 +6764,7 @@ exports[`contextMenu element > shows 'Ungroup selection' in context menu for gro
     "left": -17,
     "top": -7,
   },
+  "croppingElementId": null,
   "currentChartType": "bar",
   "currentHoveredFontFamily": null,
   "currentItemArrowType": "round",
@@ -6417,10 +6783,10 @@ exports[`contextMenu element > shows 'Ungroup selection' in context menu for gro
   "currentItemTextAlign": "left",
   "cursorButton": "up",
   "defaultSidebarDockedPreference": false,
-  "editingElement": null,
   "editingFrame": null,
   "editingGroupId": null,
   "editingLinearElement": null,
+  "editingTextElement": null,
   "elementsToHighlight": null,
   "errorMessage": null,
   "exportBackground": true,
@@ -6436,9 +6802,13 @@ exports[`contextMenu element > shows 'Ungroup selection' in context menu for gro
     "outline": true,
   },
   "frameToHighlight": null,
-  "gridSize": null,
+  "gridModeEnabled": false,
+  "gridSize": 20,
+  "gridStep": 5,
   "height": 100,
+  "hoveredElementIds": {},
   "isBindingEnabled": true,
+  "isCropping": false,
   "isLoading": false,
   "isResizing": false,
   "isRotating": false,
@@ -6468,6 +6838,7 @@ exports[`contextMenu element > shows 'Ungroup selection' in context menu for gro
   "scrollX": 0,
   "scrollY": 0,
   "scrolledOutside": false,
+  "searchMatches": [],
   "selectedElementIds": {
     "id0": true,
     "id1": true,
@@ -6773,13 +7144,14 @@ History {
 
 exports[`contextMenu element > shows 'Ungroup selection' in context menu for group inside selected elements > [end of test] number of elements 1`] = `2`;
 
-exports[`contextMenu element > shows 'Ungroup selection' in context menu for group inside selected elements > [end of test] number of renders 1`] = `13`;
+exports[`contextMenu element > shows 'Ungroup selection' in context menu for group inside selected elements > [end of test] number of renders 1`] = `11`;
 
 exports[`contextMenu element > shows context menu for canvas > [end of test] appState 1`] = `
 {
   "activeEmbeddable": null,
   "activeTool": {
     "customType": null,
+    "fromSelection": false,
     "lastActiveTool": null,
     "locked": false,
     "type": "selection",
@@ -7051,7 +7423,6 @@ exports[`contextMenu element > shows context menu for canvas > [end of test] app
         </svg>,
         "label": "labels.elementLock.unlockAll",
         "name": "unlockAllElements",
-        "paletteName": "Unlock all elements",
         "perform": [Function],
         "predicate": [Function],
         "trackEvent": {
@@ -7202,7 +7573,6 @@ exports[`contextMenu element > shows context menu for canvas > [end of test] app
         "keyTest": [Function],
         "label": "buttons.zenMode",
         "name": "zenMode",
-        "paletteName": "Toggle zen mode",
         "perform": [Function],
         "predicate": [Function],
         "trackEvent": {
@@ -7246,7 +7616,6 @@ exports[`contextMenu element > shows context menu for canvas > [end of test] app
         "keyTest": [Function],
         "label": "labels.viewMode",
         "name": "viewMode",
-        "paletteName": "Toggle view mode",
         "perform": [Function],
         "predicate": [Function],
         "trackEvent": {
@@ -7320,7 +7689,6 @@ exports[`contextMenu element > shows context menu for canvas > [end of test] app
         ],
         "label": "stats.fullTitle",
         "name": "stats",
-        "paletteName": "Toggle stats",
         "perform": [Function],
         "trackEvent": {
           "category": "menu",
@@ -7331,6 +7699,7 @@ exports[`contextMenu element > shows context menu for canvas > [end of test] app
     "left": -19,
     "top": -9,
   },
+  "croppingElementId": null,
   "currentChartType": "bar",
   "currentHoveredFontFamily": null,
   "currentItemArrowType": "round",
@@ -7349,10 +7718,10 @@ exports[`contextMenu element > shows context menu for canvas > [end of test] app
   "currentItemTextAlign": "left",
   "cursorButton": "up",
   "defaultSidebarDockedPreference": false,
-  "editingElement": null,
   "editingFrame": null,
   "editingGroupId": null,
   "editingLinearElement": null,
+  "editingTextElement": null,
   "elementsToHighlight": null,
   "errorMessage": null,
   "exportBackground": true,
@@ -7368,9 +7737,13 @@ exports[`contextMenu element > shows context menu for canvas > [end of test] app
     "outline": true,
   },
   "frameToHighlight": null,
-  "gridSize": null,
+  "gridModeEnabled": false,
+  "gridSize": 20,
+  "gridStep": 5,
   "height": 100,
+  "hoveredElementIds": {},
   "isBindingEnabled": true,
+  "isCropping": false,
   "isLoading": false,
   "isResizing": false,
   "isRotating": false,
@@ -7401,6 +7774,7 @@ exports[`contextMenu element > shows context menu for canvas > [end of test] app
   "scrollX": 0,
   "scrollY": 0,
   "scrolledOutside": false,
+  "searchMatches": [],
   "selectedElementIds": {},
   "selectedElementsAreBeingDragged": false,
   "selectedGroupIds": {},
@@ -7451,6 +7825,7 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
   "activeEmbeddable": null,
   "activeTool": {
     "customType": null,
+    "fromSelection": false,
     "lastActiveTool": null,
     "locked": false,
     "type": "selection",
@@ -7543,6 +7918,7 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
           "category": "element",
         },
       },
+      "separator",
       {
         "label": "labels.selectAllElementsInFrame",
         "name": "selectAllElementsInFrame",
@@ -7560,6 +7936,59 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
         "trackEvent": {
           "category": "history",
         },
+      },
+      {
+        "label": "labels.wrapSelectionInFrame",
+        "name": "wrapSelectionInFrame",
+        "perform": [Function],
+        "predicate": [Function],
+        "trackEvent": {
+          "category": "element",
+        },
+      },
+      "separator",
+      {
+        "PanelComponent": [Function],
+        "icon": <svg
+          aria-hidden="true"
+          className=""
+          fill="none"
+          focusable="false"
+          role="img"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+        >
+          <g
+            strokeWidth="1.25"
+          >
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M8 5v10a1 1 0 0 0 1 1h10"
+            />
+            <path
+              d="M5 8h10a1 1 0 0 1 1 1v10"
+            />
+          </g>
+        </svg>,
+        "keywords": [
+          "image",
+          "crop",
+        ],
+        "label": "helpDialog.cropStart",
+        "name": "cropEditor",
+        "perform": [Function],
+        "predicate": [Function],
+        "trackEvent": {
+          "category": "menu",
+        },
+        "viewMode": true,
       },
       "separator",
       {
@@ -8130,6 +8559,7 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
           "category": "element",
         },
       },
+      "separator",
       {
         "PanelComponent": [Function],
         "icon": <svg
@@ -8164,6 +8594,42 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
           "category": "hyperlink",
         },
       },
+      {
+        "icon": <svg
+          aria-hidden="true"
+          className=""
+          fill="none"
+          focusable="false"
+          role="img"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+        >
+          <React.Fragment>
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"
+            />
+            <path
+              d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"
+            />
+          </React.Fragment>
+        </svg>,
+        "label": "labels.copyElementLink",
+        "name": "copyElementLink",
+        "perform": [Function],
+        "predicate": [Function],
+        "trackEvent": {
+          "category": "element",
+        },
+      },
+      "separator",
       {
         "PanelComponent": [Function],
         "icon": <svg
@@ -8240,6 +8706,7 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
     "left": -17,
     "top": -7,
   },
+  "croppingElementId": null,
   "currentChartType": "bar",
   "currentHoveredFontFamily": null,
   "currentItemArrowType": "round",
@@ -8258,10 +8725,10 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
   "currentItemTextAlign": "left",
   "cursorButton": "up",
   "defaultSidebarDockedPreference": false,
-  "editingElement": null,
   "editingFrame": null,
   "editingGroupId": null,
   "editingLinearElement": null,
+  "editingTextElement": null,
   "elementsToHighlight": null,
   "errorMessage": null,
   "exportBackground": true,
@@ -8277,9 +8744,13 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
     "outline": true,
   },
   "frameToHighlight": null,
-  "gridSize": null,
+  "gridModeEnabled": false,
+  "gridSize": 20,
+  "gridStep": 5,
   "height": 100,
+  "hoveredElementIds": {},
   "isBindingEnabled": true,
+  "isCropping": false,
   "isLoading": false,
   "isResizing": false,
   "isRotating": false,
@@ -8307,6 +8778,7 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
   "scrollX": 0,
   "scrollY": 0,
   "scrolledOutside": false,
+  "searchMatches": [],
   "selectedElementIds": {
     "id0": true,
   },
@@ -8342,6 +8814,7 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
   "activeEmbeddable": null,
   "activeTool": {
     "customType": null,
+    "fromSelection": false,
     "lastActiveTool": null,
     "locked": false,
     "type": "selection",
@@ -8434,6 +8907,7 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
           "category": "element",
         },
       },
+      "separator",
       {
         "label": "labels.selectAllElementsInFrame",
         "name": "selectAllElementsInFrame",
@@ -8451,6 +8925,59 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
         "trackEvent": {
           "category": "history",
         },
+      },
+      {
+        "label": "labels.wrapSelectionInFrame",
+        "name": "wrapSelectionInFrame",
+        "perform": [Function],
+        "predicate": [Function],
+        "trackEvent": {
+          "category": "element",
+        },
+      },
+      "separator",
+      {
+        "PanelComponent": [Function],
+        "icon": <svg
+          aria-hidden="true"
+          className=""
+          fill="none"
+          focusable="false"
+          role="img"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+        >
+          <g
+            strokeWidth="1.25"
+          >
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M8 5v10a1 1 0 0 0 1 1h10"
+            />
+            <path
+              d="M5 8h10a1 1 0 0 1 1 1v10"
+            />
+          </g>
+        </svg>,
+        "keywords": [
+          "image",
+          "crop",
+        ],
+        "label": "helpDialog.cropStart",
+        "name": "cropEditor",
+        "perform": [Function],
+        "predicate": [Function],
+        "trackEvent": {
+          "category": "menu",
+        },
+        "viewMode": true,
       },
       "separator",
       {
@@ -9021,6 +9548,7 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
           "category": "element",
         },
       },
+      "separator",
       {
         "PanelComponent": [Function],
         "icon": <svg
@@ -9055,6 +9583,42 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
           "category": "hyperlink",
         },
       },
+      {
+        "icon": <svg
+          aria-hidden="true"
+          className=""
+          fill="none"
+          focusable="false"
+          role="img"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+        >
+          <React.Fragment>
+            <path
+              d="M0 0h24v24H0z"
+              fill="none"
+              stroke="none"
+            />
+            <path
+              d="M8 8m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z"
+            />
+            <path
+              d="M16 8v-2a2 2 0 0 0 -2 -2h-8a2 2 0 0 0 -2 2v8a2 2 0 0 0 2 2h2"
+            />
+          </React.Fragment>
+        </svg>,
+        "label": "labels.copyElementLink",
+        "name": "copyElementLink",
+        "perform": [Function],
+        "predicate": [Function],
+        "trackEvent": {
+          "category": "element",
+        },
+      },
+      "separator",
       {
         "PanelComponent": [Function],
         "icon": <svg
@@ -9131,6 +9695,7 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
     "left": 80,
     "top": 90,
   },
+  "croppingElementId": null,
   "currentChartType": "bar",
   "currentHoveredFontFamily": null,
   "currentItemArrowType": "round",
@@ -9149,10 +9714,10 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
   "currentItemTextAlign": "left",
   "cursorButton": "up",
   "defaultSidebarDockedPreference": false,
-  "editingElement": null,
   "editingFrame": null,
   "editingGroupId": null,
   "editingLinearElement": null,
+  "editingTextElement": null,
   "elementsToHighlight": null,
   "errorMessage": null,
   "exportBackground": true,
@@ -9168,9 +9733,13 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
     "outline": true,
   },
   "frameToHighlight": null,
-  "gridSize": null,
+  "gridModeEnabled": false,
+  "gridSize": 20,
+  "gridStep": 5,
   "height": 100,
+  "hoveredElementIds": {},
   "isBindingEnabled": true,
+  "isCropping": false,
   "isLoading": false,
   "isResizing": false,
   "isRotating": false,
@@ -9201,6 +9770,7 @@ exports[`contextMenu element > shows context menu for element > [end of test] ap
   "scrollX": 0,
   "scrollY": 0,
   "scrolledOutside": false,
+  "searchMatches": [],
   "selectedElementIds": {
     "id1": true,
   },
@@ -9285,14 +9855,14 @@ exports[`contextMenu element > shows context menu for element > [end of test] el
   "roundness": {
     "type": 3,
   },
-  "seed": 1278240551,
+  "seed": 1,
   "strokeColor": "#1e1e1e",
   "strokeStyle": "solid",
   "strokeWidth": 2,
   "type": "rectangle",
   "updated": 1,
   "version": 2,
-  "versionNonce": 453191,
+  "versionNonce": 1278240551,
   "width": 200,
   "x": 0,
   "y": 0,
@@ -9319,14 +9889,14 @@ exports[`contextMenu element > shows context menu for element > [end of test] el
   "roundness": {
     "type": 3,
   },
-  "seed": 449462985,
+  "seed": 1,
   "strokeColor": "#1e1e1e",
   "strokeStyle": "solid",
   "strokeWidth": 2,
   "type": "rectangle",
   "updated": 1,
   "version": 2,
-  "versionNonce": 401146281,
+  "versionNonce": 449462985,
   "width": 200,
   "x": 0,
   "y": 0,
@@ -9415,6 +9985,6 @@ exports[`contextMenu element > shows context menu for element > [end of test] nu
 
 exports[`contextMenu element > shows context menu for element > [end of test] number of elements 2`] = `2`;
 
-exports[`contextMenu element > shows context menu for element > [end of test] number of renders 1`] = `6`;
+exports[`contextMenu element > shows context menu for element > [end of test] number of renders 1`] = `5`;
 
 exports[`contextMenu element > shows context menu for element > [end of test] number of renders 2`] = `6`;
